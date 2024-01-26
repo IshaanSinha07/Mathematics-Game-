@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maths Gate Shower</title>
+    <link rel="icon" href="Group.jpg">
+    <style>
+        body{
+            overflow: hidden;
+            background: var(--dark);
+            background-image: url(dark-neon.webp);
+            background-position: center;
+            background-size: 100% 200vh;
+            user-select: none;
+        }
+        #andgate{
+            position: relative;
+            top: 15px;
+            filter: invert();
+        }
+        .up{
+            position: relative;
+            left: 210px;
+            z-index: 1;
+        }
+        .bottom{
+            position: relative;
+            top: 28px;
+            left: 110px;
+            z-index: 1;
+        }
+        .circuit{
+            position: relative;
+            left: 94px;
+        }
+        :root {
+            --dark: #e7e5e5;
+            --light: #1e1d1d;
+        }
+
+        * {
+            color: var(--light);
+        }
+
+        nav {
+            display: flex;
+            width: 98vw;
+            margin: auto;
+            border-bottom: 1px solid;
+            margin-bottom: 30px;
+            /* background-color: #c0362e; */
+        }
+
+        .logo {
+            flex: 1;
+            background: transparent;
+        }
+
+        .list {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: transparent;
+        }
+
+        .list ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+        }
+
+        li {
+            cursor: pointer;
+            position: relative;
+            z-index: 3;
+        }
+
+        li span {
+            padding: 3px;
+            background-color: transparent;
+            z-index: -1;
+            display: block;
+            width: 0;
+            height: 100%;
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            transition: 0.3s;
+            border-radius: 10px;
+        }
+
+        li:hover span {
+            background-color: #c0362e;
+            width: 100%;
+            transition: 0.4s;
+            transform: scale(1.2);
+        }
+
+        li:hover {
+            transform: scale(1.2);
+            transition: 0.3s;
+            color: var(--light);
+        }
+        .wid{
+            position: relative;
+            bottom: -130px;
+            left: -150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: scale(1.3);
+        }
+        select,option{
+            color: black;
+        }
+        footer{
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            background-color: #1c123a;
+            bottom: 3px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            width: 95%;
+            color: white;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <img src="logo.png" width="200" height="130" id="logo">
+        </div>
+
+        <div class="list">
+            <ul>
+                <li><img src="night-mode.png" alt="" width="20" height="20" id="themelogo" onclick="theme();" title="Dark Theme"></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="wid">
+
+        <span style="position: relative;left: 226px;">A</span> 
+        <span style="position: relative; top: 30px;left: 215px;">B</span>
+        <img src="line.png" width="100" height="100" class="up" id="up">
+        <img src="line.png" width="100" height="100" class="bottom" id="bottom">
+        <div class="circuit">
+            
+            <img src="AndGate.png" width="100" height="50" id="andgate">
+            <span id="output">A.B</span>
+            <span id="change"></span>
+            <select id="select" onclick="call();">
+                <option>OR gate</option>
+                <option>NOR gate</option>
+                <option>NAND gate</option>
+                <option selected>AND gate</option>
+            </select>
+        </div>
+    </div>
+    <!-- <img src="https://res.cloudinary.com/rsc/image/upload/b_rgb:FFFFFF,c_pad,dpr_1.0,f_auto,q_auto,w_700/c_pad,w_700/R2175566-03" width="100" height="50" id="andgate"> -->
+    <!-- <img src="https://www.build-electronic-circuits.com/wp-content/uploads/2020/08/OR-gate-symbol.png" width="100" height="50" id="orgate"> -->
+    <!-- <img src="https://gurmeet.net/Images/puzzles/three_not_gates.png" width="100" height="50" id="notgate"> -->
+    <!-- <img src="https://media.rs-online.com/image/upload/w_620,h_413,c_crop,c_pad,b_white,f_auto,q_auto/dpr_auto/v1482269960/R0442892-03.jpg" width="120" height="100" id="nandgate"> -->
+    <!-- <img src="https://1.bp.blogspot.com/-6WIVVJ2z3nE/V5a4lwsPO-I/AAAAAAAAQeA/gRvV6mGMtxgrmF7rWCAtYeMpQxzLqZFVQCLcB/s1600/logicgate-17.png" width="100" height="50" id="norgate"> -->
+    <footer>
+        By: Alexander,Aditya,Abrez and Ishaan
+    </footer>
+    <script>
+        function call(){
+            let up = document.getElementById("up");
+            let bottom = document.getElementById("bottom");
+            let and = document.getElementById("andgate");
+            let select = document.getElementById("select");
+            if(select.value == "OR gate"){
+                and.src = "OR_gate_symbol__2_-removebg-preview.png";
+                up.style.top = "3px";
+                bottom.style.top = "24px";
+
+                document.getElementById("output").textContent = "A + B";
+            }
+            else if(select.value == "NOR gate"){
+                and.src = "nor_gate-removebg-preview.png";
+                document.getElementById("output").textContent = "~(A + B)";
+                up.style.top = "0px";
+                bottom.style.top = "26px";
+            }
+            else if(select.value == "NAND gate"){
+                and.src = "NandGate.png";
+                document.getElementById("output").textContent = "~(A.B)";
+                up.style.top = "0px";
+                bottom.style.top = "27px";
+            }
+            else if(select.value == "AND gate"){
+                and.src = "AndGate.png";
+                document.getElementById("output").textContent = "A.B";
+                up.style.top = "0";
+                bottom.style.top = "26px";
+            }
+        }
+        function theme() {
+            let logo = document.getElementById("logo");
+            let theme = document.getElementById("themelogo");
+            let root = document.documentElement;
+            let up = document.getElementById("up");
+            let bottom = document.getElementById("bottom");
+            let and = document.getElementById("andgate");
+
+            if (theme.src.endsWith("night-mode.png")) {
+                logo.src = "logo-dark.png";
+                theme.src = "light-mode.png";
+                theme.title = "Light Theme";
+                up.style.filter = "invert()";
+                bottom.style.filter = "invert()";
+                and.style.filter = "invert()";
+                // getComputedStyle(root).getPropertyValue('--main-color');
+                // root.style.setProperty('--main-color', 'red')
+
+                let darkColor = getComputedStyle(root).getPropertyValue('--dark').trim();
+                let lightColor = getComputedStyle(root).getPropertyValue('--light').trim();
+
+                root.style.setProperty('--dark', lightColor);
+                root.style.setProperty('--light', darkColor);
+            }
+            else if (theme.src.endsWith("light-mode.png")) {
+                logo.src = "logo.png";
+                theme.src = "night-mode.png";
+                theme.title = "Dark Theme";
+                up.style.filter = "none";
+                bottom.style.filter = "none";
+                and.style.filter = "none";
+
+
+                let darkColor = getComputedStyle(root).getPropertyValue('--dark').trim();
+                let lightColor = getComputedStyle(root).getPropertyValue('--light').trim();
+
+                root.style.setProperty('--dark', lightColor);
+                root.style.setProperty('--light', darkColor);
+            }
+        }
+        theme();
+    </script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circuit Maker</title>
+    <link rel="icon" href="Group.jpg">
+    <style>
+        
+        body{
+            background: url(dark-neon.webp);
+            background-position: center;
+            background-size: 97% 300vh;
+            filter: invert();
+        }
+        .head {
+            display: grid;
+            justify-content: center;
+            align-items: center;
+            height: 10vh;
+            font-size: 20px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid;
+            margin-bottom: 30px;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            /* border: 2px solid; */
+            position: relative;
+        }
+        
+        input{
+            padding: 5px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+            border-radius: 6px;
+        }
+        .logo{
+            position: absolute;
+            top: -25px;
+        }
+        .logo img{
+            filter: invert();
+        }
+    </style>
+</head>
+
+<body>
+    <div id="pos"></div>
+    <span class="logo">
+        <a href="LogicGatesMathsFront.html"><img src="logo-dark.png" width="200" height="130" id="logo"></a>
+    </span>
+    <div class="head">
+        <label for="equation">Enter Equation</label>
+        <input type="text" placeholder="Enter equation" id="equation">
+        <button onclick="call();">Click</button>
+    </div>
+    <!-- <span id="change"></span> -->
+    <div class="content">
+
+    </div>
+    <div class="content2">
+
+    </div>
+    <script>
+        function call() {
+            let equation = document.getElementById("equation").value;
+            let alphabets = new Set();
+            let char = 65;
+            for (let i = 0; i < 26; i++) {
+                alphabets.add(String.fromCharCode(char));
+                char++;
+            }
+            let char2 = 97;
+            for (let i = 0; i < 26; i++) {
+                alphabets.add(String.fromCharCode(char2));
+                char2++;
+            }
+            let components = equation.match(/([A-Z]+|[a-z]+|\(|\)|[+*.~])/g);
+            let count = 0;
+            let comps = [];
+            for (let i in components) {
+                if (alphabets.has(components[i])) {
+                    count++;
+                    comps.push(components[i]);
+
+                    // alphabets.delete(components[i]);
+                }
+            }
+
+            // document.getElementById("change").textContent = count;
+
+            const contentDiv = document.querySelector(".content");
+            contentDiv.innerHTML = '';
+            let position = [];
+            for (let i = 0; i < count; i++) {
+                const container = document.createElement("div");
+                // Add the text from comps array
+                const text = document.createElement("span");
+                text.textContent = comps[i];
+                container.appendChild(text);
+
+                // Add the image
+                const image = document.createElement("img");
+                image.src = "line1.png";
+                image.width = "100";
+                image.height = "20";
+                image.style.padding = "0";
+                image.style.margin = "0";
+                image.style.marginTop = "2px";
+                image.style.marginBottom = "16px";
+                let rect = image.getBoundingClientRect();
+                position.push(rect.left);
+                position.push(rect.top);
+                container.appendChild(image);
+                contentDiv.appendChild(container);
+            }
+            let a = 0;
+            let add = 0;
+            for (let i in components) {
+                let currentIndex = i;
+                if (alphabets.has(components[i])) {
+                    currentIndex++;
+                    if (components[currentIndex] == '.') {
+                        const container = document.createElement("div");
+                        const image = document.createElement("img");
+                        image.src = "AndGate.png";
+                        image.width = "120";
+                        image.height = "65";
+                        image.style.padding = "0";
+                        image.style.margin = "0";
+
+                        const output = document.createElement("span");
+                        if(a<1){
+                            output.textContent = comps[i] + "." +(comps[comps.indexOf(comps[i])+1]);
+                        }
+                    
+                        a++;
+                        output.style.marginRight = "5px";
+                        container.appendChild(image);
+                        container.appendChild(output);
+                        // container.style.marginBottom = "800px";
+                        const rect = container.getBoundingClientRect();
+                        container.style.position = "absolute";
+                        container.style.top = (rect.top+add) + "px";
+                        add = add + 42;
+                        container.style.left = "100px";
+                        // container.style.height = "55";
+                        contentDiv.appendChild(container);
+                    }
+                    else if (components[currentIndex] == '+') {
+                        const container = document.createElement("div");
+                        const image = document.createElement("img");
+                        image.src = "OR_gate_symbol__2_-removebg-preview.png";
+                        image.width = "100";
+                        image.height = "70";
+                        image.style.padding = "0";
+                        image.style.margin = "0";
+                        const output = document.createElement("span");
+                        // output.textContent = comps[i] + "+" +(comps[comps.indexOf(comps[i])+1]);
+                        output.textContent = equation;
+                        output.style.marginRight = "5px";
+                        container.appendChild(image);
+                        container.appendChild(output);
+                        const rect = output.getBoundingClientRect();
+                        console.log("Top: " + rect.top);
+                        console.log("Left: " + rect.left);
+                        console.log("Bottom: " + rect.bottom);
+                        console.log("Right: " + rect.right);
+                        console.log("Width: " + rect.width);
+                        console.log("Height: " + rect.height);
+                        container.style.position = "absolute";
+                        container.style.top = (rect.top+add) + "px";
+                        add = add + 42;
+                        container.style.left = "230px";
+                        // container.style.height = "55";
+                        contentDiv.appendChild(container);
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
